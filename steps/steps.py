@@ -66,7 +66,6 @@ def click_element_by_name(context, element_name):
     else:
         assert False, f"Unknown element: {element_name}"
 
-
 @step('Verify the "{page_name}" page is displayed')
 def verify_page_is_displayed(context, page_name):
     if page_name.lower() in ["login", "log in"]: #handles variations
@@ -95,9 +94,6 @@ def enter_valid_email(context, email, field_name):
 def verify_confirmation_message(context):
     assert context.current_page.is_confirmation_message_displayed(), "Confirmation message did not appear"
 
-
-
-
 @step('Click element "{element_name}"')
 def click_element_by_name(context, element_name):
     context.profile.click_element_by_name(element_name)
@@ -111,7 +107,7 @@ def click_element_by_name(context, element_name):
 
 
 @step('Type "{text}" into "{field_name}"')
-def step_impl(context, text, field_name):
+def type_text(context, text, field_name):
     profile_page = ProfilePage(context.driver)
     field_locator = getattr(profile_page, field_name)
     profile_page.type_text(field_locator, text)

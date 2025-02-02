@@ -2,8 +2,11 @@ Feature: Profile Page Testing
 
   Scenario: My profile
     Given Open "dev" environment
-    Then Type "houseattheocean@gmail.com" into "my_email"
-    Then Type "mCtwAtjpizSTWEz7" into "my_password"
+    Then The user enters "houseattheocean@gmail.com" into the "my_email" field
+    Then The user enters "mCtwAtjpizSTWEz7" into the "my_password" field
+
+#    Then Type "houseattheocean@gmail.com" into "my_email"
+#    Then Type "mCtwAtjpizSTWEz7" into "my_password"
     Then Click element "my_login_button"
     Then Click element "my_profile_icon"
     Then Click element "page_my_profile"

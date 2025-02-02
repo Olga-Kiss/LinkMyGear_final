@@ -60,6 +60,8 @@ class ProfilePage(BasePage):
             element = self.first_name_field
         elif element_name.lower() == "last name":
             element = self.last_name_field
+        elif element_name.lower() == "my email":
+            element = self.my_email
         elif element_name.lower() == "select_prefix":
             element = self.select_prefix
         elif element_name.lower() == "prefix_us":
