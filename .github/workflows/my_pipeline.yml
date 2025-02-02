@@ -1,0 +1,55 @@
+name: My first pipline
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch: 
+    inputs:
+      run_option:
+        description: 'Choose the behave run option'
+        required: true
+        default: 'behave -f plain -k --tags="@forgot_pwd"'
+        type: choice
+        options:
+          - 'behave -f plain -k --tags="@forgot_pwd"'
+          
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: ${{ inputs.run_option }}
+
+      - name: Run tests (scheduled)
+        if: github.event_name == 'schedule'
+        run: behave -f plain -k --tags="@example"
+
+      - name: Verify my_log.log exists
+        run: |
+          if [ ! -f logs/my_log.log ]; then
+            echo "Error: my_log.log not found!"
+            exit 1
+          else
+            echo "my_log.log exists and will be uploaded."
+          fi
+
+      - name: Upload log.txt as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-log
+          path: logs/my_log.log
